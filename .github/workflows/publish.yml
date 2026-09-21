@@ -32,6 +32,6 @@ jobs:
       - name: Publish to npm with provenance
         run: |
           [ -n "$NPM_TOKEN" ] && npm config set //registry.npmjs.org/:_authToken "$NPM_TOKEN"
-          npm publish --access public --provenance
+          npm run release
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
