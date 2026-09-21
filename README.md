@@ -53,7 +53,7 @@ The npm package contains only the compiled `dist` directory and the standard pac
 
 ## Support
 
-Report problems through [GitHub Issues](https://github.com/DealerAI/n8n-nodes-dealerai/issues).
+Report problems through [GitHub Issues](https://github.com/dealerai/n8n-nodes-dealerai/issues).
 
 ## License
 

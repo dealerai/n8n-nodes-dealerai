@@ -1,9 +1,9 @@
 {
 	"name": "n8n-nodes-dealerai",
-	"version": "0.1.1",
+	"version": "0.1.2",
 	"description": "n8n community nodes for the complete DealerAI API",
 	"license": "MIT",
-	"homepage": "https://github.com/DealerAI/n8n-nodes-dealerai#readme",
+	"homepage": "https://github.com/dealerai/n8n-nodes-dealerai#readme",
 	"keywords": [
 		"n8n-community-node-package",
 		"n8n",
@@ -16,10 +16,10 @@
 	},
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/DealerAI/n8n-nodes-dealerai.git"
+		"url": "https://github.com/dealerai/n8n-nodes-dealerai"
 	},
 	"bugs": {
-		"url": "https://github.com/DealerAI/n8n-nodes-dealerai/issues"
+		"url": "https://github.com/dealerai/n8n-nodes-dealerai/issues"
 	},
 	"publishConfig": {
 		"access": "public",
