@@ -1,0 +1,62 @@
+{
+	"name": "n8n-nodes-dealerai",
+	"version": "0.1.0",
+	"description": "n8n community nodes for the complete DealerAI API",
+	"license": "MIT",
+	"homepage": "https://github.com/DealerAI/n8n-nodes-dealerai#readme",
+	"keywords": [
+		"n8n-community-node-package",
+		"n8n",
+		"dealerai",
+		"automotive",
+		"dealership"
+	],
+	"author": {
+		"name": "DealerAI"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/DealerAI/n8n-nodes-dealerai.git"
+	},
+	"bugs": {
+		"url": "https://github.com/DealerAI/n8n-nodes-dealerai/issues"
+	},
+	"publishConfig": {
+		"access": "public",
+		"provenance": true
+	},
+	"scripts": {
+		"build": "n8n-node build",
+		"build:watch": "tsc --watch",
+		"dev": "n8n-node dev",
+		"lint": "n8n-node lint",
+		"lint:fix": "n8n-node lint --fix",
+		"prepublishOnly": "n8n-node prerelease"
+	},
+	"files": [
+		"dist/credentials/**/*.js",
+		"dist/icons/**/*.svg",
+		"dist/nodes/**/*.js",
+		"dist/nodes/**/*.json"
+	],
+	"n8n": {
+		"n8nNodesApiVersion": 1,
+		"strict": true,
+		"credentials": [
+			"dist/credentials/DealerAiApi.credentials.js"
+		],
+		"nodes": [
+			"dist/nodes/DealerAi/DealerAi.node.js"
+		]
+	},
+	"devDependencies": {
+		"@n8n/node-cli": "0.33.1",
+		"eslint": "9.29.0",
+		"prettier": "3.8.3",
+		"release-it": "20.2.0",
+		"typescript": "5.9.3"
+	},
+	"peerDependencies": {
+		"n8n-workflow": "*"
+	}
+}
