@@ -1,6 +1,6 @@
 {
 	"name": "n8n-nodes-dealerai",
-	"version": "0.1.2",
+	"version": "0.1.3",
 	"description": "n8n community nodes for the complete DealerAI API",
 	"license": "MIT",
 	"homepage": "https://github.com/dealerai/n8n-nodes-dealerai#readme",
