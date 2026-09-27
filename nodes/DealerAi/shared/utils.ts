@@ -52,6 +52,40 @@ const defaultValue = (field: DealerAiFieldSpec): NodeParameterValueType => {
 	return '';
 };
 
+const booleanDescriptions: Record<string, string> = {
+	'body:force':
+		'Whether to re-extract a promotion that was modified after its last extraction; requires \'Overwrite\' to be enabled',
+	'body:in_sequence': 'Whether the contact must already be enrolled in a sequence',
+	'body:is_active': 'Whether to mark the created promotion as active',
+	'body:is_department_only': 'Whether this personnel entry represents a department instead of a person',
+	'body:overwrite': 'Whether to overwrite an existing promotion with the same site URL',
+	'body:root': 'Whether the promotion is active',
+	'query:IncludeAll': 'Whether to include all knowledge-base entries',
+	'query:IncludeContent': 'Whether to include the full knowledge-base entry content',
+	'query:IncludeIsArchived': 'Whether to include archived conversations',
+	'query:includeMessages': 'Whether to include conversation messages in the response',
+	'query:isActive': 'Whether to return active promotions instead of inactive promotions',
+	'query:isExtracted': 'Whether to return extracted promotions instead of unextracted promotions',
+};
+
+const fieldDescription = (
+	field: DealerAiFieldSpec,
+	location: DealerAiParameterLocation | 'body',
+): string => {
+	if (field.type === 'boolean') {
+		return (
+			booleanDescriptions[`${location}:${field.name}`] ??
+			`Whether to enable '${field.displayName}'`
+		);
+	}
+	return (
+		field.description ??
+		(field.format === 'binary'
+			? `Name of the incoming binary property to send as the Swagger field "${field.name}"`
+			: `Swagger ${location} field "${field.name}"`)
+	);
+};
+
 export function fieldToNodeProperty(
 	field: DealerAiFieldSpec,
 	location: DealerAiParameterLocation | 'body',
@@ -63,11 +97,7 @@ export function fieldToNodeProperty(
 		name: fieldParameterName(location, field.name),
 		type,
 		default: defaultValue(field),
-		description:
-			field.description ??
-			(field.format === 'binary'
-				? `Name of the incoming binary property to send as the Swagger field "${field.name}"`
-				: `Swagger ${location} field "${field.name}"`),
+		description: fieldDescription(field, location),
 		required,
 	};
 	if (field.enum?.length) {

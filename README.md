@@ -19,7 +19,40 @@ Create a **DealerAI API** credential with:
 
 The credential test calls `POST /api/v1/authentication/verify`.
 
-## Supported resources
+## Usage
+
+1. Add a **DealerAI** node to a workflow.
+2. Select your **DealerAI API** credential.
+3. Select a resource and operation, then provide the required fields.
+4. Add optional query and request-body values under **Additional Fields**.
+
+Successful requests return the DealerAI response under `data`, together with the HTTP `statusCode`, optional `statusMessage`, and response `headers`. Successful delete operations return `{ "deleted": true }` so downstream nodes receive a confirmation item.
+
+### Example: keep website promotions synchronized
+
+This pattern is based on an existing DealerAI promotion-extraction workflow:
+
+1. Start with a **Manual Trigger** or scheduled trigger.
+2. Scrape the dealership's promotion listing page and split the discovered promotion URLs into items.
+3. Scrape each promotion detail page to produce HTML and Markdown.
+4. Add a **DealerAI** node with:
+   - **Resource**: `Promotion`
+   - **Operation**: `Extract and Create a Promotion`
+   - **Force**: `true`
+   - **HTML**: `={{ $json.data.html }}`
+   - **Is Active**: `true`
+   - **Markdown**: `={{ $json.data.markdown }}`
+   - **Overwrite**: `true`
+   - **Site URL**: an expression that reads the current promotion detail URL
+5. Add another **DealerAI** node with **Promotion > Get Promotions**. Set **Is Active** and **Is Extracted** to `true` to retrieve the existing active extracted promotions.
+6. Compare the existing promotion URLs with the URLs discovered by the scraper.
+7. For promotions no longer present on the website, use **Promotion > Set Promotion Active Status**, set **ID** from the comparison result, and set **Active** to `false`.
+
+The DealerAI API credential supplies authentication to every DealerAI node, so the workflow does not need to place usernames or passwords in node parameters.
+
+## API coverage
+
+The package exposes 57 operations across 17 DealerAI resources:
 
 - AILM
 - Authentication

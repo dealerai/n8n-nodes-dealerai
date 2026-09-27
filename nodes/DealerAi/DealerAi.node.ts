@@ -41,6 +41,13 @@ function outputFromResponse(response: DealerAiApiResponse, itemIndex: number): I
 	};
 }
 
+function deletedOutput(itemIndex: number): INodeExecutionData {
+	return {
+		json: { deleted: true },
+		pairedItem: { item: itemIndex },
+	};
+}
+
 function getFieldValue(
 	context: IExecuteFunctions,
 	itemIndex: number,
@@ -255,7 +262,11 @@ export class DealerAi implements INodeType {
 					encoding: requestBody.encoding,
 					timeout: Number(requestSettings.timeout ?? 30000),
 				});
-				returnData.push(outputFromResponse(response, itemIndex));
+				returnData.push(
+					operation.method === 'DELETE'
+						? deletedOutput(itemIndex)
+						: outputFromResponse(response, itemIndex),
+				);
 			} catch (error) {
 				const details = extractDealerAiError(error);
 				if (this.continueOnFail()) {

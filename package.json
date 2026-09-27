@@ -12,7 +12,8 @@
 		"dealership"
 	],
 	"author": {
-		"name": "DealerAI"
+		"name": "DealerAI",
+		"email": "contact@dealerai.com"
 	},
 	"repository": {
 		"type": "git",

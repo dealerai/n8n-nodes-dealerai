@@ -14,26 +14,23 @@ const operationProperties = (
 	resource: string,
 	operations: readonly DealerAiOperationSpec[],
 ): INodeProperties[] => {
-	const properties: INodeProperties[] = [
-		// The default is generated from the first option for this Swagger resource.
-		// eslint-disable-next-line n8n-nodes-base/node-param-default-missing
-		{
-			displayName: 'Operation',
-			name: 'operation',
-			type: 'options',
-			noDataExpression: true,
-			displayOptions: { show: { resource: [resource] } },
-			options: [...operations]
-				.sort((left, right) => left.name.localeCompare(right.name))
-				.map((operation) => ({
-					name: operation.name,
-					value: operation.value,
-					action: operation.action,
-					description: operation.description,
-				})),
-			default: [...operations].sort((left, right) => left.name.localeCompare(right.name))[0].value,
-		},
-	];
+	const sortedOperations = [...operations].sort((left, right) => left.name.localeCompare(right.name));
+	const operationProperty: INodeProperties = {
+		displayName: 'Operation',
+		name: 'operation',
+		type: 'options',
+		noDataExpression: true,
+		displayOptions: { show: { resource: [resource] } },
+		options: sortedOperations.map((operation) => ({
+			name: operation.name,
+			value: operation.value,
+			action: operation.action,
+			description: operation.description,
+		})),
+		default: '',
+	};
+	operationProperty.default = sortedOperations[0]?.value ?? '';
+	const properties: INodeProperties[] = [operationProperty];
 
 	for (const operation of operations) {
 		const show = { resource: [operation.resource], operation: [operation.value] };
@@ -96,17 +93,18 @@ const groupedOperations = dealerAiOperations.reduce(
 	{} as Record<string, DealerAiOperationSpec[]>,
 );
 
+const resourceProperty: INodeProperties = {
+	displayName: 'Resource',
+	name: 'resource',
+	type: 'options',
+	noDataExpression: true,
+	options: resources,
+	default: '',
+};
+resourceProperty.default = resources[0]?.value ?? '';
+
 export const dealerAiProperties: INodeProperties[] = [
-	// The default is generated from the alphabetically first Swagger resource.
-	// eslint-disable-next-line n8n-nodes-base/node-param-default-missing
-	{
-		displayName: 'Resource',
-		name: 'resource',
-		type: 'options',
-		noDataExpression: true,
-		options: resources,
-		default: resources[0].value,
-	},
+	resourceProperty,
 	...resources.flatMap(({ value }) => operationProperties(value, groupedOperations[value] ?? [])),
 	{
 		displayName: 'Request Settings',
